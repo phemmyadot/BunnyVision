@@ -1,67 +1,13 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect, FC } from "react";
-import {
-  View,
-  Button,
-  Image,
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
-import { Camera, PermissionStatus } from "expo-camera";
+import { SafeAreaView } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { RekognitionService } from "./rekognitionService";
 import { GPTService } from "./gptService";
 import { ErrorBoundary } from "./ErrorBoundary";
-
-interface BottomActionsProps {
-  onCameraPress: () => void;
-  onGalleryPress: () => void;
-  onHistoryPress: () => void;
-}
-const BottomActions: React.FC<BottomActionsProps> = ({
-  onCameraPress,
-  onGalleryPress,
-  onHistoryPress,
-}) => {
-  return (
-    <>
-      <View style={styles.FabButtonContainer}>
-        <View style={styles.FabButtonInnerContainer}>
-          <TouchableOpacity onPress={onCameraPress} style={styles.FabButton}>
-            <Image
-              source={require("./assets/camera.png")}
-              style={styles.tabIcon}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.bottomTab}>
-        <TouchableOpacity onPress={onGalleryPress} style={styles.tabButton}>
-          <Image
-            source={require("./assets/gallery.png")}
-            style={styles.tabIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onHistoryPress} style={styles.tabButton}>
-          <Image
-            source={require("./assets/history.png")}
-            style={styles.tabIcon}
-          />
-        </TouchableOpacity>
-      </View>
-    </>
-  );
-};
-
-const AppTopBar = () => {
-  return (
-    <View style={styles.appTopBar}>
-      <Text style={styles.appTopBarText}>Image Recognition</Text>
-    </View>
-  );
-};
+import { styles } from "./styles";
+import AppTopBar from "./components/AppTopBar";
+import BottomActions from "./components/BottomActions";
+import RecognitionScreen from "./components/RecognitionScreen";
 
 const App = () => {
   const [image, setImage] = useState<string>("");
@@ -100,7 +46,7 @@ const App = () => {
     <SafeAreaView style={styles.container}>
       <ErrorBoundary>
         <AppTopBar />
-        <CameraScreen
+        <RecognitionScreen
           image={image}
           description={description}
           loading={loading}
@@ -116,126 +62,3 @@ const App = () => {
 };
 
 export default App;
-
-interface CameraScreenProps {
-  image: string;
-  description: string;
-  loading: boolean;
-}
-const CameraScreen: React.FC<CameraScreenProps> = ({
-  image,
-  description,
-  loading,
-}) => {
-  const [hasPermission, setHasPermission] = useState<boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === PermissionStatus.GRANTED);
-    })();
-  }, []);
-
-  if (hasPermission === null) {
-    return <View />;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
-
-  return (
-    <View style={styles.container}>
-      {image && <Image source={{ uri: image }} style={styles.image} />}
-      {loading && <Text>Loading...</Text>}
-      <View style={styles.descriptionContainer}>
-        <Text style={styles.description}>{description}</Text>
-      </View>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: {
-    width: 200,
-    height: 200,
-  },
-  descriptionContainer: {
-    padding: 40,
-  },
-  description: {
-    textAlign: "justify",
-  },
-  tabIcon: {
-    width: 18,
-    height: 18,
-  },
-  tabButton: {
-    padding: 18,
-    borderRadius: 50,
-  },
-  bottomTab: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    paddingHorizontal: "15%",
-    paddingVertical: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: -8,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 5,
-    backgroundColor: "#fff",
-  },
-  FabButtonContainer: {
-    bottom: 40,
-    right: 0,
-    left: 0,
-    alignItems: "center",
-    zIndex: 1,
-  },
-  FabButtonInnerContainer: {
-    position: "absolute",
-    backgroundColor: "#fff",
-    padding: 18,
-    borderRadius: 50,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: -50,
-    },
-    shadowOpacity: 0.07,
-    shadowRadius: 20,
-  },
-  FabButton: {
-    backgroundColor: "#613EEA",
-    padding: 18,
-    borderRadius: 50,
-  },
-  appTopBar: {
-    height: 50,
-    width: "100%",
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowOpacity: 0.07,
-    shadowRadius: 6,
-    elevation: 5,
-  },
-  appTopBarText: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-});
