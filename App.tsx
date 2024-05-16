@@ -55,6 +55,14 @@ const BottomActions: React.FC<BottomActionsProps> = ({
   );
 };
 
+const AppTopBar = () => {
+  return (
+    <View style={styles.appTopBar}>
+      <Text style={styles.appTopBarText}>Image Recognition</Text>
+    </View>
+  );
+};
+
 const App = () => {
   const [image, setImage] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -91,6 +99,7 @@ const App = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ErrorBoundary>
+        <AppTopBar />
         <CameraScreen
           image={image}
           description={description}
@@ -178,10 +187,10 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: -7,
+      height: -8,
     },
     shadowOpacity: 0.08,
-    shadowRadius: 10,
+    shadowRadius: 6,
     elevation: 5,
     backgroundColor: "#fff",
   },
@@ -209,5 +218,24 @@ const styles = StyleSheet.create({
     backgroundColor: "#613EEA",
     padding: 18,
     borderRadius: 50,
+  },
+  appTopBar: {
+    height: 50,
+    width: "100%",
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.07,
+    shadowRadius: 6,
+    elevation: 5,
+  },
+  appTopBarText: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });
