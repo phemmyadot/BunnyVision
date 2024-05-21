@@ -1,5 +1,17 @@
 import { StyleSheet } from "react-native";
 
+export const colors = {
+  primary: "#155565",
+  secondary: "#6c757d",
+  success: "#28a745",
+  danger: "#dc3545",
+  warning: "#ffc107",
+  info: "#17a2b8",
+  light: "#f8f9fa",
+  dark: "#343a40",
+  white: "#ffffff",
+};
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -12,16 +24,22 @@ export const styles = StyleSheet.create({
   },
   descriptionContainer: {
     padding: 40,
+    flex: 1,
   },
   description: {
     textAlign: "justify",
+    marginBottom: 100,
   },
   tabIcon: {
-    width: 18,
-    height: 18,
+    width: 20,
+    height: 20,
+  },
+  fabIcon: {
+    width: 32,
+    height: 32,
   },
   tabButton: {
-    padding: 18,
+    padding: 12,
     borderRadius: 50,
   },
   bottomTab: {
@@ -30,7 +48,7 @@ export const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: "15%",
     paddingVertical: 10,
-    shadowColor: "#000",
+    shadowColor: colors.primary,
     shadowOffset: {
       width: 0,
       height: -8,
@@ -38,7 +56,7 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 6,
     elevation: 5,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
   },
   FabButtonContainer: {
     bottom: 40,
@@ -49,10 +67,10 @@ export const styles = StyleSheet.create({
   },
   FabButtonInnerContainer: {
     position: "absolute",
-    backgroundColor: "#fff",
-    padding: 18,
+    backgroundColor: colors.white,
+    padding: 16,
     borderRadius: 50,
-    shadowColor: "#000",
+    shadowColor: colors.primary,
     shadowOffset: {
       width: 0,
       height: -50,
@@ -61,17 +79,23 @@ export const styles = StyleSheet.create({
     shadowRadius: 20,
   },
   FabButton: {
-    backgroundColor: "#613EEA",
-    padding: 18,
+    backgroundColor: colors.white,
+    padding: 14,
     borderRadius: 50,
+    shadowColor: colors.primary,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.1,
   },
   appTopBar: {
     height: 50,
     width: "100%",
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
+    shadowColor: colors.primary,
     shadowOffset: {
       width: 0,
       height: 8,

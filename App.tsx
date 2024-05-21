@@ -1,5 +1,5 @@
-import React, { useState, useEffect, FC } from "react";
-import { SafeAreaView } from "react-native";
+import React, { useState } from "react";
+import { SafeAreaView, TouchableWithoutFeedback, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { RekognitionService } from "./rekognitionService";
 import { GPTService } from "./gptService";
@@ -8,56 +8,66 @@ import { styles } from "./styles";
 import AppTopBar from "./components/AppTopBar";
 import BottomActions from "./components/BottomActions";
 import RecognitionScreen from "./components/RecognitionScreen";
+import ImageSelector from "./components/ImageSelector";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const App = () => {
   const [image, setImage] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [showPhotoSelector, setShowPhotoSelector] = useState<boolean>(false);
 
   const rekognitionService = RekognitionService.getInstance();
   const gptService = GPTService.getInstance();
-  const pickImage = async () => {
+  const pickImage = async (image: string) => {
     try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 0,
-      });
+      setImage(image);
+      setLoading(true);
+      const imageData = await rekognitionService.analyzeImage(image);
 
-      if (!result.canceled) {
-        setImage(result.assets[0].uri);
-        setLoading(true);
-        const imageData = await rekognitionService.analyzeImage(
-          result.assets[0].uri
-        );
-
-        const description = await gptService.getDescriptionFromGPT4(
-          JSON.stringify(imageData)
-        );
-        setDescription(description);
-        setLoading(false);
-      }
+      const description = await gptService.getDescriptionFromGPT4(
+        JSON.stringify(imageData)
+      );
+      setDescription(description);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
-      <ErrorBoundary>
-        <AppTopBar />
-        <RecognitionScreen
-          image={image}
-          description={description}
-          loading={loading}
-        />
-        <BottomActions
-          onCameraPress={() => {}}
-          onGalleryPress={pickImage}
-          onHistoryPress={() => {}}
-        />
-      </ErrorBoundary>
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <ErrorBoundary>
+          <TouchableWithoutFeedback onPress={() => setShowPhotoSelector(false)}>
+            <>
+              <AppTopBar />
+              <RecognitionScreen
+                image={image}
+                description={description}
+                loading={loading}
+              />
+              <BottomActions
+                onCameraPress={() => setShowPhotoSelector(true)}
+                onSettingsPress={() => {}}
+                onAboutPress={() => {}}
+              />
+              <View
+                style={{
+                  justifyContent: "flex-end",
+                  alignItems: "flex-end",
+                }}
+              >
+                <ImageSelector
+                  isVisible={showPhotoSelector}
+                  onClose={() => setShowPhotoSelector(false)}
+                  onImageSelected={pickImage}
+                />
+              </View>
+            </>
+          </TouchableWithoutFeedback>
+        </ErrorBoundary>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 

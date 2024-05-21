@@ -2,13 +2,13 @@ import { View, TouchableOpacity, Image } from "react-native";
 import { styles } from "../styles";
 interface BottomActionsProps {
   onCameraPress: () => void;
-  onGalleryPress: () => void;
-  onHistoryPress: () => void;
+  onSettingsPress: () => void;
+  onAboutPress: () => void;
 }
 const BottomActions: React.FC<BottomActionsProps> = ({
   onCameraPress,
-  onGalleryPress,
-  onHistoryPress,
+  onSettingsPress,
+  onAboutPress,
 }) => {
   return (
     <>
@@ -16,22 +16,22 @@ const BottomActions: React.FC<BottomActionsProps> = ({
         <View style={styles.FabButtonInnerContainer}>
           <TouchableOpacity onPress={onCameraPress} style={styles.FabButton}>
             <Image
-              source={require("./../assets/camera.png")}
-              style={styles.tabIcon}
+              source={require("./../assets/scan-icon.png")}
+              style={styles.fabIcon}
             />
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.bottomTab}>
-        <TouchableOpacity onPress={onGalleryPress} style={styles.tabButton}>
+        <TouchableOpacity onPress={onSettingsPress} style={styles.tabButton}>
           <Image
-            source={require("./../assets/gallery.png")}
-            style={styles.tabIcon}
+            source={require("./../assets/settings.png")}
+            style={[styles.tabIcon, { height: 23 }]}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={onHistoryPress} style={styles.tabButton}>
+        <TouchableOpacity onPress={onAboutPress} style={styles.tabButton}>
           <Image
-            source={require("./../assets/history.png")}
+            source={require("./../assets/about.png")}
             style={styles.tabIcon}
           />
         </TouchableOpacity>

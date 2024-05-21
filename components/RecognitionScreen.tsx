@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { styles } from "../styles";
 import { Camera, PermissionStatus } from "expo-camera";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 
 interface RecognitionScreenProps {
   image: string;
@@ -33,9 +33,9 @@ const RecognitionScreen: React.FC<RecognitionScreenProps> = ({
     <View style={styles.container}>
       {image && <Image source={{ uri: image }} style={styles.image} />}
       {loading && <Text>Loading...</Text>}
-      <View style={styles.descriptionContainer}>
+      <ScrollView style={styles.descriptionContainer}>
         <Text style={styles.description}>{description}</Text>
-      </View>
+      </ScrollView>
     </View>
   );
 };
