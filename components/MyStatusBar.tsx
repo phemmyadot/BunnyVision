@@ -1,18 +1,22 @@
-import React from "react";
-import { SafeAreaView, StatusBar, View } from "react-native";
+import React from 'react';
+import { SafeAreaView, StatusBar, View } from 'react-native';
 
 interface MyStatusBarProps {
-  backgroundColor: string;
+    backgroundColor: string;
 }
 const MyStatusBar: React.FC<MyStatusBarProps> = ({
-  backgroundColor,
-  ...props
+    backgroundColor,
+    ...props
 }) => (
-  <View style={[{ backgroundColor }]}>
-    <SafeAreaView>
-      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-    </SafeAreaView>
-  </View>
+    <View style={[{ backgroundColor }]}>
+        <SafeAreaView>
+            <StatusBar
+                translucent
+                backgroundColor={backgroundColor}
+                {...props}
+            />
+        </SafeAreaView>
+    </View>
 );
 
 export default MyStatusBar;
