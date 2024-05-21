@@ -6,7 +6,7 @@ const ErrorDisplay: React.FunctionComponent = () => {
         <SafeAreaView>
             <StatusBar hidden={true} />
             <View>
-                <Text>Something went wrong</Text>
+                <Text>Something went wrong!</Text>
             </View>
         </SafeAreaView>
     );
