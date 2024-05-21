@@ -1,15 +1,20 @@
 import React, { useState } from "react";
-import { SafeAreaView, TouchableWithoutFeedback, View } from "react-native";
-import * as ImagePicker from "expo-image-picker";
+import {
+  SafeAreaView,
+  TouchableWithoutFeedback,
+  View,
+  StatusBar,
+} from "react-native";
 import { RekognitionService } from "./rekognitionService";
 import { GPTService } from "./gptService";
 import { ErrorBoundary } from "./ErrorBoundary";
-import { styles } from "./styles";
+import { colors, styles } from "./styles";
 import AppTopBar from "./components/AppTopBar";
 import BottomActions from "./components/BottomActions";
 import RecognitionScreen from "./components/RecognitionScreen";
 import ImageSelector from "./components/ImageSelector";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import MyStatusBar from "./components/MyStatusBar";
 
 const App = () => {
   const [image, setImage] = useState<string>("");
@@ -36,6 +41,7 @@ const App = () => {
   };
   return (
     <SafeAreaProvider>
+      <MyStatusBar backgroundColor={colors.primary} />
       <SafeAreaView style={styles.container}>
         <ErrorBoundary>
           <TouchableWithoutFeedback onPress={() => setShowPhotoSelector(false)}>

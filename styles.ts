@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export const colors = {
   primary: "#155565",
@@ -51,10 +51,10 @@ export const styles = StyleSheet.create({
     shadowColor: colors.primary,
     shadowOffset: {
       width: 0,
-      height: -8,
+      height: 0,
     },
     shadowOpacity: 0.08,
-    shadowRadius: 6,
+    shadowRadius: 1,
     elevation: 5,
     backgroundColor: colors.white,
   },
@@ -73,10 +73,11 @@ export const styles = StyleSheet.create({
     shadowColor: colors.primary,
     shadowOffset: {
       width: 0,
-      height: -50,
+      height: 2,
     },
-    shadowOpacity: 0.07,
-    shadowRadius: 20,
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
   },
   FabButton: {
     backgroundColor: colors.white,
@@ -85,27 +86,30 @@ export const styles = StyleSheet.create({
     shadowColor: colors.primary,
     shadowOffset: {
       width: 0,
-      height: 0,
+      height: 2,
     },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 2,
   },
   appTopBar: {
-    height: 50,
+    paddingVertical: 20,
     width: "100%",
-    backgroundColor: colors.white,
+    backgroundColor: colors.primary,
     justifyContent: "center",
     alignItems: "center",
     shadowColor: colors.primary,
     shadowOffset: {
       width: 0,
-      height: 8,
+      height: 0,
     },
     shadowOpacity: 0.07,
     shadowRadius: 6,
-    elevation: 5,
+    elevation: 2,
   },
   appTopBarText: {
     fontSize: 20,
     fontWeight: "bold",
+    color: colors.white,
   },
 });
