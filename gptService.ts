@@ -24,7 +24,7 @@ export class GPTService {
                     {
                         role: 'user',
                         content:
-                            'Describe an image with the following labels: \n' +
+                            "Describe briefly an image with the following labels. Don't add the % to the result, use them to conclude the result instead:  \n\n" +
                             imageLabels
                     }
                 ],
