@@ -6,11 +6,12 @@ import {
     StyleSheet,
     Alert,
     Modal,
-    TouchableOpacity
+    TouchableOpacity,
+    TouchableWithoutFeedback
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors } from '../styles';
+import { colors, styles } from '../styles';
 
 interface ImageSelectorProps {
     isVisible: boolean;
@@ -78,63 +79,36 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
 
     return (
         <Modal visible={isVisible} animationType="slide" transparent={true}>
-            <TouchableOpacity style={styles.modalContent} onPress={onClose}>
-                <View
-                    style={[
-                        styles.buttonsContainer,
-                        { paddingBottom: insets.bottom + 20 }
-                    ]}
-                >
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={takeImageHandler}
+            <TouchableWithoutFeedback onPress={onClose}>
+                <View style={styles.photoModeSelector}>
+                    <View
+                        style={[
+                            styles.photoSelectorButtonsContainer,
+                            { paddingBottom: insets.bottom + 20 }
+                        ]}
                     >
-                        <Text style={styles.buttonText}>Take Photo</Text>
-                    </TouchableOpacity>
-                    <View style={styles.divider} />
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={pickImageHandler}
-                    >
-                        <Text style={styles.buttonText}>
-                            Pick Image from Gallery
-                        </Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.photoSelectorButton}
+                            onPress={takeImageHandler}
+                        >
+                            <Text style={styles.photoSelectorButtonText}>
+                                Take Photo
+                            </Text>
+                        </TouchableOpacity>
+                        <View style={styles.divider} />
+                        <TouchableOpacity
+                            style={styles.photoSelectorButton}
+                            onPress={pickImageHandler}
+                        >
+                            <Text style={styles.photoSelectorButtonText}>
+                                Pick Image from Gallery
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
         </Modal>
     );
 };
-const styles = StyleSheet.create({
-    modalContent: {
-        backgroundColor: 'transparent',
-        alignItems: 'center',
-        marginTop: 'auto',
-        justifyContent: 'flex-end',
-        height: '100%'
-    },
-    buttonsContainer: {
-        backgroundColor: colors.primary,
-        width: '100%',
-        padding: 20,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20
-    },
-    button: {
-        paddingVertical: 10,
-        width: '100%'
-    },
-    buttonText: {
-        textAlign: 'center',
-        fontSize: 14,
-        fontWeight: '500',
-        color: colors.white
-    },
-    divider: {
-        height: 0.3,
-        backgroundColor: colors.white,
-        marginVertical: 10
-    }
-});
 
 export default ImageSelector;

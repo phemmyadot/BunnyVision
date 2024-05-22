@@ -3,7 +3,9 @@ import {
     SafeAreaView,
     TouchableWithoutFeedback,
     View,
-    StatusBar
+    Text,
+    Modal,
+    TouchableOpacity
 } from 'react-native';
 import { RekognitionService } from './rekognitionService';
 import { GPTService } from './gptService';
@@ -16,12 +18,15 @@ import ImageSelector from './components/ImageSelector';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import MyStatusBar from './components/MyStatusBar';
 import * as Speech from 'expo-speech';
+import ConfirmationDialog from './components/ConfirmationDialog';
 
 const App = () => {
     const [image, setImage] = useState<string | null>(null);
     const [description, setDescription] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [showPhotoSelector, setShowPhotoSelector] = useState<boolean>(false);
+    const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
+    const [confirmationText, setConfirmationText] = useState<string>('');
 
     const rekognitionService = RekognitionService.getInstance();
     const gptService = GPTService.getInstance();
@@ -49,6 +54,7 @@ const App = () => {
                 Speech.stop();
             }
         });
+        setShowConfirmation(false);
     };
 
     return (
@@ -60,29 +66,65 @@ const App = () => {
                         onPress={() => setShowPhotoSelector(false)}
                     >
                         <>
-                            <AppTopBar reset={reset} />
+                            <AppTopBar
+                                reset={() => {
+                                    setConfirmationText(
+                                        'Are you sure you want to reset?'
+                                    );
+                                    setShowConfirmation(true);
+                                }}
+                            />
                             <RecognitionScreen
                                 image={image}
                                 description={description}
                                 loading={loading}
                             />
                             <BottomActions
-                                onCameraPress={() => setShowPhotoSelector(true)}
+                                onCameraPress={() => {
+                                    if (!image) setShowPhotoSelector(true);
+                                    else {
+                                        setConfirmationText(
+                                            'Are you sure you want to take a new photo?'
+                                        );
+                                        setShowConfirmation(true);
+                                    }
+                                }}
                                 onSettingsPress={() => {}}
                                 onAboutPress={() => {}}
                             />
-                            <View
-                                style={{
-                                    justifyContent: 'flex-end',
-                                    alignItems: 'flex-end'
+                            {showPhotoSelector && (
+                                <View
+                                    style={{
+                                        justifyContent: 'flex-end',
+                                        alignItems: 'flex-end'
+                                    }}
+                                >
+                                    <ImageSelector
+                                        isVisible={showPhotoSelector}
+                                        onClose={() =>
+                                            setShowPhotoSelector(false)
+                                        }
+                                        onImageSelected={pickImage}
+                                    />
+                                </View>
+                            )}
+                            <ConfirmationDialog
+                                isOpen={showConfirmation}
+                                onClose={() => setShowConfirmation(false)}
+                                onConfirm={() => {
+                                    if (
+                                        confirmationText ===
+                                        'Are you sure you want to reset?'
+                                    ) {
+                                        reset();
+                                    } else {
+                                        reset();
+                                        setShowConfirmation(false);
+                                        setShowPhotoSelector(true);
+                                    }
                                 }}
-                            >
-                                <ImageSelector
-                                    isVisible={showPhotoSelector}
-                                    onClose={() => setShowPhotoSelector(false)}
-                                    onImageSelected={pickImage}
-                                />
-                            </View>
+                                message={confirmationText}
+                            />
                         </>
                     </TouchableWithoutFeedback>
                 </ErrorBoundary>

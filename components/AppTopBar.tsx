@@ -16,7 +16,7 @@ const AppTopBar: React.FC<AppTopBarProps> = ({ reset }) => {
                 }
             ]}
         >
-            <Text style={styles.appTopBarText}>BunnyVision</Text>
+            <Text style={styles.headerText}>BunnyVision</Text>
             <TouchableOpacity style={{ padding: 10 }} onPress={reset}>
                 <Image
                     source={require('../assets/reset.png')}

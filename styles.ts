@@ -121,18 +121,89 @@ export const styles = StyleSheet.create({
         shadowRadius: 6,
         elevation: 2
     },
-    appTopBarText: {
+    headerText: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: colors.white
+        color: colors.white,
+        textAlign: 'center'
+    },
+    bodyText: {
+        fontSize: 14,
+        color: colors.white,
+        textAlign: 'center',
+        paddingHorizontal: 10
     },
     loadingContainer: {
         justifyContent: 'center',
         minHeight: '100%'
     },
+    confirmButton: {
+        backgroundColor: colors.primary,
+        padding: 10,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 20
+    },
     loading: {
         height: 150,
         width: 150,
         alignSelf: 'center'
+    },
+    modal: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        padding: 40,
+        backgroundColor: 'rgba(21, 85, 101, 0.1)'
+    },
+    modalContent: {
+        backgroundColor: colors.white,
+        borderColor: colors.primary,
+        borderWidth: 2,
+        width: '100%',
+        padding: 20,
+        borderRadius: 20,
+        textAlign: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: colors.primary,
+        shadowOffset: {
+            width: 0,
+            height: 0
+        },
+        shadowOpacity: 0.07,
+        shadowRadius: 6,
+        elevation: 2
+    },
+    photoModeSelector: {
+        backgroundColor: 'transparent',
+        alignItems: 'center',
+        marginTop: 'auto',
+        justifyContent: 'flex-end',
+        height: '100%'
+    },
+    photoSelectorButtonsContainer: {
+        backgroundColor: colors.primary,
+        width: '100%',
+        padding: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20
+    },
+    photoSelectorButton: {
+        paddingVertical: 10,
+        width: '100%'
+    },
+    photoSelectorButtonText: {
+        textAlign: 'center',
+        fontSize: 14,
+        fontWeight: '500',
+        color: colors.white
+    },
+    divider: {
+        height: 0.5,
+        backgroundColor: colors.primary,
+        width: '100%',
+        marginVertical: 20
     }
 });
