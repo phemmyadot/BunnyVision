@@ -3,6 +3,7 @@ import { styles } from '../styles';
 import { Camera, PermissionStatus } from 'expo-camera';
 import { View, Text, Image, ScrollView } from 'react-native';
 import * as Speech from 'expo-speech';
+import AnimatedLottieView from 'lottie-react-native';
 
 interface RecognitionScreenProps {
     image: string | null;
@@ -46,13 +47,22 @@ const RecognitionScreen: React.FC<RecognitionScreenProps> = ({
                     style={styles.image}
                 />
             )}
-
             <ScrollView style={styles.descriptionContainer}>
-                <Text style={styles.description}>
-                    {description
-                        ? description
-                        : 'Please select an image to analyze'}
-                </Text>
+                {loading ? (
+                    <View style={styles.loadingContainer}>
+                        <AnimatedLottieView
+                            source={require('../assets/loading.json')}
+                            autoPlay
+                            style={styles.loading}
+                        />
+                    </View>
+                ) : !loading && description ? (
+                    <Text style={styles.description}>{description}</Text>
+                ) : (
+                    <Text style={[styles.description, styles.textCenter]}>
+                        Please select an image to analyze
+                    </Text>
+                )}
             </ScrollView>
         </View>
     );

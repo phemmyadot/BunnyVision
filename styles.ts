@@ -29,11 +29,18 @@ export const styles = StyleSheet.create({
         padding: 20,
         flex: 1,
         borderRadius: 10,
-        paddingTop: 20
+        paddingTop: 20,
+        minWidth: '100%'
     },
     description: {
         textAlign: 'justify',
         marginBottom: 100
+    },
+    textCenter: {
+        textAlign: 'center'
+    },
+    textRight: {
+        textAlign: 'right'
     },
     tabIcon: {
         width: 20,
@@ -118,5 +125,14 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: colors.white
+    },
+    loadingContainer: {
+        justifyContent: 'center',
+        minHeight: '100%'
+    },
+    loading: {
+        height: 150,
+        width: 150,
+        alignSelf: 'center'
     }
 });
