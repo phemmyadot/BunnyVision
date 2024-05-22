@@ -7,7 +7,6 @@ import {
     Modal,
     TouchableOpacity
 } from 'react-native';
-import { RekognitionService } from './rekognitionService';
 import { GPTService } from './gptService';
 import { ErrorBoundary } from './ErrorBoundary';
 import { colors, styles } from './styles';
@@ -28,20 +27,29 @@ const App = () => {
     const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
     const [confirmationText, setConfirmationText] = useState<string>('');
 
-    const rekognitionService = RekognitionService.getInstance();
     const gptService = GPTService.getInstance();
-    const pickImage = async (image: string) => {
+    const pickImage = async (
+        image: string,
+        base64EncodedImage?: string | null
+    ) => {
         try {
+            if (!base64EncodedImage) {
+                return;
+            }
             setImage(image);
             setLoading(true);
-            const imageData = await rekognitionService.analyzeImage(image);
+            // const imageData = await rekognitionService.analyzeImage(image);
 
-            const description = await gptService.getDescriptionFromGPT4(
-                JSON.stringify(imageData)
-            );
+            const description = await gptService.gpt4(base64EncodedImage);
+
+            // const description = await gptService.getDescriptionFromGPT4(
+            //     JSON.stringify(imageData)
+            // );
             setDescription(description);
             setLoading(false);
         } catch (error) {
+            reset();
+            setLoading(false);
             console.error(error);
         }
     };

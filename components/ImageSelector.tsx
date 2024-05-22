@@ -16,7 +16,10 @@ import { colors, styles } from '../styles';
 interface ImageSelectorProps {
     isVisible: boolean;
     onClose: () => void;
-    onImageSelected: (image: string) => void;
+    onImageSelected: (
+        image: string,
+        base64EncodedImage?: string | null
+    ) => void;
 }
 
 const ImageSelector: React.FC<ImageSelectorProps> = ({
@@ -49,12 +52,12 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
         }
 
         const image = await ImagePicker.launchCameraAsync({
-            allowsEditing: true,
             aspect: [16, 9],
-            quality: 0
+            quality: 0,
+            base64: true
         });
         if (!image.canceled) {
-            onImageSelected(image.assets[0].uri);
+            onImageSelected(image.assets[0].uri, image.assets[0].base64);
         }
         onClose();
     };
@@ -66,13 +69,13 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
         }
 
         const image = await ImagePicker.launchImageLibraryAsync({
-            allowsEditing: true,
             aspect: [16, 9],
-            quality: 0
+            quality: 0,
+            base64: true
         });
 
         if (!image.canceled) {
-            onImageSelected(image.assets[0].uri);
+            onImageSelected(image.assets[0].uri, image.assets[0].base64);
         }
         onClose();
     };
