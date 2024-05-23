@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-    SafeAreaView,
-    TouchableWithoutFeedback,
-    View,
-    Text,
-    Modal,
-    TouchableOpacity
-} from 'react-native';
+import { SafeAreaView, TouchableWithoutFeedback, View } from 'react-native';
 import { GPTService } from './gptService';
 import { ErrorBoundary } from './ErrorBoundary';
 import { colors, styles } from './styles';
@@ -28,23 +21,16 @@ const App = () => {
     const [confirmationText, setConfirmationText] = useState<string>('');
 
     const gptService = GPTService.getInstance();
-    const pickImage = async (
-        image: string,
-        base64EncodedImage?: string | null
-    ) => {
+    const pickImage = async (image: string, base64EncodedImage?: string | null) => {
         try {
             if (!base64EncodedImage) {
                 return;
             }
             setImage(image);
             setLoading(true);
-            // const imageData = await rekognitionService.analyzeImage(image);
 
             const description = await gptService.gpt4(base64EncodedImage);
 
-            // const description = await gptService.getDescriptionFromGPT4(
-            //     JSON.stringify(imageData)
-            // );
             setDescription(description);
             setLoading(false);
         } catch (error) {
@@ -57,7 +43,7 @@ const App = () => {
     const reset = () => {
         setImage(null);
         setDescription(null);
-        Speech.isSpeakingAsync().then((speaking) => {
+        Speech.isSpeakingAsync().then(speaking => {
             if (speaking) {
                 Speech.stop();
             }
@@ -70,30 +56,20 @@ const App = () => {
             <MyStatusBar backgroundColor={colors.primary} />
             <SafeAreaView style={styles.container}>
                 <ErrorBoundary>
-                    <TouchableWithoutFeedback
-                        onPress={() => setShowPhotoSelector(false)}
-                    >
+                    <TouchableWithoutFeedback onPress={() => setShowPhotoSelector(false)}>
                         <>
                             <AppTopBar
                                 reset={() => {
-                                    setConfirmationText(
-                                        'Are you sure you want to reset?'
-                                    );
+                                    setConfirmationText('Are you sure you want to reset?');
                                     setShowConfirmation(true);
                                 }}
                             />
-                            <RecognitionScreen
-                                image={image}
-                                description={description}
-                                loading={loading}
-                            />
+                            <RecognitionScreen image={image} description={description} loading={loading} />
                             <BottomActions
                                 onCameraPress={() => {
                                     if (!image) setShowPhotoSelector(true);
                                     else {
-                                        setConfirmationText(
-                                            'Are you sure you want to take a new photo?'
-                                        );
+                                        setConfirmationText('Are you sure you want to take a new photo?');
                                         setShowConfirmation(true);
                                     }
                                 }}
@@ -104,14 +80,11 @@ const App = () => {
                                 <View
                                     style={{
                                         justifyContent: 'flex-end',
-                                        alignItems: 'flex-end'
-                                    }}
-                                >
+                                        alignItems: 'flex-end',
+                                    }}>
                                     <ImageSelector
                                         isVisible={showPhotoSelector}
-                                        onClose={() =>
-                                            setShowPhotoSelector(false)
-                                        }
+                                        onClose={() => setShowPhotoSelector(false)}
                                         onImageSelected={pickImage}
                                     />
                                 </View>
@@ -120,10 +93,7 @@ const App = () => {
                                 isOpen={showConfirmation}
                                 onClose={() => setShowConfirmation(false)}
                                 onConfirm={() => {
-                                    if (
-                                        confirmationText ===
-                                        'Are you sure you want to reset?'
-                                    ) {
+                                    if (confirmationText === 'Are you sure you want to reset?') {
                                         reset();
                                     } else {
                                         reset();

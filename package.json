@@ -1,46 +1,41 @@
 {
-  "name": "bunny-vision",
-  "version": "1.0.0",
-  "main": "expo/AppEntry.js",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "prettier:write": "npx prettier --write **/*.{js,ts,tsx,json} && npx prettier --write *.{js,ts,tsx,json}",
-    "lint": "tsc --noEmit && eslint --ext .js,.ts,.tsx ./"
-  },
-  "dependencies": {
-    "aws-sdk": "^2.1621.0",
-    "expo": "^51.0.8",
-    "expo-camera": "^15.0.9",
-    "expo-image-picker": "~15.0.5",
-    "expo-speech": "~12.0.2",
-    "expo-status-bar": "~1.12.1",
-    "expo-updates": "^0.25.14",
-    "lottie-react-native": "6.7.0",
-    "openai": "^4.47.1",
-    "react": "18.2.0",
-    "react-native": "0.74.1",
-    "react-native-image-resizer": "^1.4.5",
-    "react-native-safe-area-context": "^4.10.1"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.20.0",
-    "@eslint/js": "^9.3.0",
-    "@types/react": "~18.2.45",
-    "@typescript-eslint/eslint-plugin": "^7.10.0",
-    "@typescript-eslint/parser": "^7.10.0",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb-typescript": "^18.0.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsx-a11y": "^6.8.0",
-    "eslint-plugin-react": "^7.34.1",
-    "globals": "^15.3.0",
-    "prettier": "^3.2.5",
-    "typescript": "^5.3.3",
-    "typescript-eslint": "^7.10.0"
-  },
-  "private": true
+    "name": "bunny-vision",
+    "version": "1.0.0",
+    "main": "expo/AppEntry.js",
+    "scripts": {
+        "start": "expo start",
+        "android": "expo start --android",
+        "ios": "expo start --ios",
+        "web": "expo start --web",
+        "lint": "eslint ."
+    },
+    "dependencies": {
+        "@react-native-community/eslint-config": "^3.2.0",
+        "aws-sdk": "^2.1621.0",
+        "expo": "^51.0.8",
+        "expo-camera": "^15.0.9",
+        "expo-image-picker": "~15.0.5",
+        "expo-speech": "~12.0.2",
+        "expo-status-bar": "~1.12.1",
+        "expo-updates": "^0.25.14",
+        "lottie-react-native": "6.7.0",
+        "openai": "^4.47.1",
+        "react": "18.2.0",
+        "react-native": "0.74.1",
+        "react-native-image-resizer": "^1.4.5",
+        "react-native-safe-area-context": "^4.10.1"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.20.0",
+        "@eslint/js": "^9.3.0",
+        "@types/react": "~18.2.45",
+        "@typescript-eslint/eslint-plugin": "^7.10.0",
+        "@typescript-eslint/parser": "^7.10.0",
+        "eslint": "^8.57.0",
+        "globals": "^15.3.0",
+        "prettier": "^3.2.5",
+        "typescript": "^5.3.3",
+        "typescript-eslint": "^7.10.0"
+    },
+    "private": true
 }

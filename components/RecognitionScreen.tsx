@@ -2,22 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { styles } from '../styles';
 import { Camera, PermissionStatus } from 'expo-camera';
 import { View, Text, Image, ScrollView } from 'react-native';
-import { Voice, getAvailableVoicesAsync, speak, stop } from 'expo-speech';
+import { speak, stop } from 'expo-speech';
 import AnimatedLottieView from 'lottie-react-native';
-import { GPTService } from '../gptService';
 
 interface RecognitionScreenProps {
     image: string | null;
     description: string | null;
     loading: boolean;
 }
-const RecognitionScreen: React.FC<RecognitionScreenProps> = ({
-    image,
-    description,
-    loading
-}) => {
+const RecognitionScreen: React.FC<RecognitionScreenProps> = ({ image, description, loading }) => {
     const [hasPermission, setHasPermission] = useState<boolean>(false);
-    const [voice, setVoice] = useState<string>('');
+    // const [voice, setVoice] = useState<string>('');
 
     const handleSpeak = (description: string) => {
         speak(description, {
@@ -65,10 +60,7 @@ const RecognitionScreen: React.FC<RecognitionScreenProps> = ({
             {image ? (
                 <Image source={{ uri: image }} style={styles.image} />
             ) : (
-                <Image
-                    source={require('../assets/placeholder.png')}
-                    style={styles.image}
-                />
+                <Image source={require('../assets/placeholder.png')} style={styles.image} />
             )}
             <ScrollView style={styles.descriptionContainer}>
                 {loading ? (
@@ -82,9 +74,7 @@ const RecognitionScreen: React.FC<RecognitionScreenProps> = ({
                 ) : !loading && description ? (
                     <Text style={styles.description}>{description}</Text>
                 ) : (
-                    <Text style={[styles.description, styles.textCenter]}>
-                        Please select an image to analyze
-                    </Text>
+                    <Text style={[styles.description, styles.textCenter]}>Please select an image to analyze</Text>
                 )}
             </ScrollView>
         </View>

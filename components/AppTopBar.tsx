@@ -1,3 +1,4 @@
+import React from 'react';
 import { View, Text, Platform, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../styles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -12,16 +13,12 @@ const AppTopBar: React.FC<AppTopBarProps> = ({ reset }) => {
             style={[
                 styles.appTopBar,
                 Platform.OS === 'android' && {
-                    paddingTop: insets.top + 20
-                }
-            ]}
-        >
+                    paddingTop: insets.top + 20,
+                },
+            ]}>
             <Text style={styles.headerText}>BunnyVision</Text>
             <TouchableOpacity style={{ padding: 10 }} onPress={reset}>
-                <Image
-                    source={require('../assets/reset.png')}
-                    style={styles.tabIcon}
-                />
+                <Image source={require('../assets/reset.png')} style={styles.tabIcon} />
             </TouchableOpacity>
         </View>
     );
