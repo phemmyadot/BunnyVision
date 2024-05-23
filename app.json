@@ -13,7 +13,12 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.phemmyhot.BunnyVision"
+      "bundleIdentifier": "com.phemmyhot.BunnyVision",
+      "infoPlist": {
+        "NSCameraUsageDescription": "BunnyVision needs access to your camera to allow you to take photos and use our image recognition feature.",
+        "NSPhotoLibraryUsageDescription": "BunnyVision needs access to your photo library to allow you to upload images for recognition.",
+        "NSPhotoLibraryAddUsageDescription": "BunnyVision needs access to your photo library to allow you to upload images for recognition."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -35,6 +40,15 @@
     },
     "updates": {
       "url": "https://u.expo.dev/a6f5e67a-90db-4049-8bc5-3f65acfdd34d"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends.",
+          "cameraPermission": "The app accesses your camera to let you share photos with your friends."
+        }
+      ]
+    ]
   }
 }

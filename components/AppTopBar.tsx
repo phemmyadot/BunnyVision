@@ -37,8 +37,9 @@ const AppTopBar = () => {
                             <Text style={styles.headerText}>Back</Text>
                         </View>
                     </TouchableOpacity>
-                    {/* demo arrow button height to maintain app bar height */}
-                    <View style={{ height: 40 }}></View>
+                    <View style={{ padding: 8 }}>
+                        <Text style={styles.headerText}>{appContext.currentRoute}</Text>
+                    </View>
                 </>
             )}
         </View>

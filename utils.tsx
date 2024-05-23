@@ -20,8 +20,6 @@ interface AppContextType {
     setLoading: (loading: boolean) => void;
     reset: () => void;
     gptService: GPTService;
-    voice: string;
-    setVoice: (voice: string) => void;
     showDialog: boolean;
     setShowDialog: (showConfirmation: boolean) => void;
     closeDialog: (onConfirm: () => void) => void;
@@ -44,8 +42,6 @@ const defaultContext: AppContextType = {
     setLoading: () => {},
     reset: () => {},
     gptService: GPTService.getInstance(),
-    voice: '',
-    setVoice: () => {},
     showDialog: false,
     setShowDialog: () => {},
     closeDialog: () => {},
@@ -65,7 +61,6 @@ interface AppProviderProps {
 
 const AppProvider: FC<AppProviderProps> = ({ children }) => {
     const [loading, setLoading] = React.useState<boolean>(false);
-    const [voice, setVoice] = React.useState<string>('');
     const [showPhotoSelector, setShowPhotoSelector] = React.useState<boolean>(false);
     const [image, setImage] = React.useState<string | null>(null);
     const [message, setMessage] = React.useState<string | null>(null);
@@ -102,8 +97,6 @@ const AppProvider: FC<AppProviderProps> = ({ children }) => {
                 setLoading: setLoading,
                 reset: reset,
                 gptService: GPTService.getInstance(),
-                voice: voice,
-                setVoice: setVoice,
                 showDialog: showDialog,
                 setShowDialog: setShowDialog,
                 closeDialog: closeDialog,

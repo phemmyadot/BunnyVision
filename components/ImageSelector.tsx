@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import { View, Text, Platform, Alert, Modal, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import React, { FC, useContext } from 'react';
+import { View, Text, Alert, Modal, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { styles } from '../styles';
-import { AppContext, DialogType } from '../utils';
+import { AppContext } from '../utils';
 
 interface ImageSelectorProps {
     onImageSelected: (base64EncodedImage?: string | null) => void;
@@ -12,45 +12,52 @@ interface ImageSelectorProps {
 const ImageSelector: FC<ImageSelectorProps> = ({ onImageSelected }) => {
     const appContext = useContext(AppContext);
     const insets = useSafeAreaInsets();
+    const [cameraStatus, requestCameraPermission] = ImagePicker.useCameraPermissions();
 
-    const verifyPermissions = async () => {
-        if (Platform.OS !== 'web') {
-            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-            if (status !== 'granted') {
-                Alert.alert('Insufficient permissions!', 'You need to grant camera permissions to use this app.', [
-                    { text: 'Okay' },
-                ]);
-                return false;
-            }
+    const verifyMediaPermissions = async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== ImagePicker.PermissionStatus.GRANTED) {
+            Alert.alert('Insufficient permissions!', 'You need to grant camera permissions to use this app.', [
+                { text: 'Okay' },
+            ]);
+            return false;
         }
+
+        return true;
+    };
+    const verifyCameraPermissions = async () => {
+        const { status } = await requestCameraPermission();
+        if (status !== ImagePicker.PermissionStatus.GRANTED) {
+            Alert.alert('Insufficient permissions!', 'You need to grant camera permissions to use this app.', [
+                { text: 'Okay' },
+            ]);
+            return false;
+        }
+
         return true;
     };
 
     const takeImageHandler = async () => {
         appContext.setShowPhotoSelector(false);
-        const hasPermission = await verifyPermissions();
-        if (!hasPermission) {
-            appContext.setDialogType(DialogType.PermissionAlert);
-            appContext.setShowDialog(true);
-            return;
-        }
-
-        const image = await ImagePicker.launchCameraAsync({
-            aspect: [16, 9],
-            quality: 0,
-            base64: true,
-        });
-        if (!image.canceled) {
-            appContext.reset();
-            appContext.setLoading(true);
-            appContext.setImage(image.assets[0].uri);
-            onImageSelected(image.assets[0].base64);
+        const hasPermission = await verifyCameraPermissions();
+        if (hasPermission) {
+            const image = await ImagePicker.launchCameraAsync({
+                aspect: [16, 9],
+                quality: 0,
+                base64: true,
+            });
+            if (!image.canceled) {
+                appContext.reset();
+                appContext.setLoading(true);
+                appContext.setImage(image.assets[0].uri);
+                onImageSelected(image.assets[0].base64);
+            }
         }
     };
 
     const pickImageHandler = async () => {
         appContext.setShowPhotoSelector(false);
-        const hasPermission = await verifyPermissions();
+        const hasPermission = await verifyMediaPermissions();
         if (!hasPermission) {
             return;
         }

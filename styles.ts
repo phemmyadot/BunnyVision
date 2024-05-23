@@ -8,7 +8,7 @@ export const colors = {
     warning: '#ffc107',
     info: '#17a2b8',
     light: '#f8f9fa',
-    dark: '#343a40',
+    dark: '#000000',
     white: '#ffffff',
 };
 
@@ -25,6 +25,9 @@ export const styles = StyleSheet.create({
         borderEndStartRadius: 10,
         borderEndEndRadius: 10,
     },
+    settingsSection: {
+        marginBottom: 20,
+    },
     messageContainer: {
         padding: 20,
         flex: 1,
@@ -34,7 +37,7 @@ export const styles = StyleSheet.create({
     },
     message: {
         textAlign: 'justify',
-        marginBottom: 100,
+        marginBottom: 5,
     },
     textCenter: {
         textAlign: 'center',
@@ -126,6 +129,38 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: colors.white,
         textAlign: 'center',
+    },
+    titleText: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 10,
+    },
+    subBodyText: {
+        fontSize: 16,
+        textAlign: 'center',
+        color: '#888',
+        marginBottom: 20,
+    },
+    subheader: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 10,
+    },
+    infoSection: {
+        marginBottom: 20,
+        backgroundColor: colors.white,
+        shadowColor: colors.primary,
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.07,
+        shadowRadius: 6,
+        elevation: 2,
+        padding: 20,
+        borderRadius: 10,
     },
     backButton: { flexDirection: 'row', alignItems: 'center' },
     bodyText: {

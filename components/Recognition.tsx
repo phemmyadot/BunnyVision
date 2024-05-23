@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { styles } from '../styles';
-import { Camera, PermissionStatus } from 'expo-camera';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { speak, stop } from 'expo-speech';
 import AnimatedLottieView from 'lottie-react-native';
 import { GPTService } from '../gptService';
-import * as Speech from 'expo-speech';
 import ImageSelector from './ImageSelector';
 import { AppContext, DialogType } from '../utils';
+import Spacer from './Spacer';
 
-const RecognitionScreen = () => {
+const Recognition = () => {
     const appContext = useContext(AppContext);
 
     const gptService = GPTService.getInstance();
@@ -46,17 +45,6 @@ const RecognitionScreen = () => {
         };
     };
 
-    useEffect(() => {
-        (async () => {
-            const { status } = await Camera.requestCameraPermissionsAsync();
-            if (status !== PermissionStatus.GRANTED) {
-                appContext.setDialogType(DialogType.PermissionAlert);
-                appContext.setShowDialog(true);
-                return;
-            }
-        })();
-    }, [appContext.message]);
-
     return (
         <>
             <View style={styles.container}>
@@ -79,6 +67,7 @@ const RecognitionScreen = () => {
                     ) : (
                         <Text style={[styles.message, styles.textCenter]}>Please select an image to analyze</Text>
                     )}
+                    <Spacer size={100} />
                 </ScrollView>
             </View>
             {appContext.showPhotoSelector && (
@@ -94,4 +83,4 @@ const RecognitionScreen = () => {
     );
 };
 
-export default RecognitionScreen;
+export default Recognition;
