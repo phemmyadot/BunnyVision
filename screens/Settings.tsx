@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Switch, ScrollView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../components/BottomActions';
 import { Picker } from '@react-native-picker/picker';
 import Spacer from '../components/Spacer';
 import { colors, styles } from '../styles';
+import { PersistentStorage } from '../persistent-storage';
 
 type SettingsNavigationProp = StackNavigationProp<RootStackParamList, 'Settings'>;
 
@@ -13,11 +14,37 @@ type Props = {
 };
 
 const Settings: React.FC<Props> = ({ navigation }) => {
-    const [isSpeechEnabled, setIsSpeechEnabled] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState('en');
+    const [isSpeechEnabled, setIsSpeechEnabled] = useState(false);
     const [selectedVoice, setSelectedVoice] = useState('default');
 
-    const handleSelectVoice = (value: string) => {};
+    const persistentStorage = PersistentStorage.getInstance();
+
+    useEffect(() => {
+        (async () => {
+            const language = (await persistentStorage.getData('language')) || 'en';
+            setSelectedLanguage(language);
+            const voice = (await persistentStorage.getData('voice')) || 'default';
+            setSelectedVoice(voice);
+            const speechEnabled: boolean = (await persistentStorage.getData('speechEnabled')) === 'true' ? true : false;
+            setIsSpeechEnabled(speechEnabled);
+        })();
+    });
+
+    const handleSelectVoice = (value: string) => {
+        setSelectedVoice(value);
+        persistentStorage.storeData(value, 'voice');
+    };
+
+    const handleSelectLanguage = (value: string) => {
+        setSelectedLanguage(value);
+        persistentStorage.storeData(value, 'language');
+    };
+
+    const handleToggleSpeech = (value: boolean) => {
+        setIsSpeechEnabled(value);
+        persistentStorage.storeData(value ? 'true' : 'false', 'speechEnabled');
+    };
     return (
         <View style={styles.container}>
             <ScrollView style={styles.messageContainer}>
@@ -26,7 +53,7 @@ const Settings: React.FC<Props> = ({ navigation }) => {
                     <Picker
                         selectedValue={selectedLanguage}
                         style={localStyles.picker}
-                        onValueChange={itemValue => setSelectedLanguage(itemValue)}>
+                        onValueChange={handleSelectLanguage}>
                         <Picker.Item label="English" value="en" />
                         <Picker.Item label="Spanish" value="es" />
                         <Picker.Item label="French" value="fr" />
@@ -38,7 +65,7 @@ const Settings: React.FC<Props> = ({ navigation }) => {
                     <Switch
                         trackColor={{ true: colors.primary }}
                         value={isSpeechEnabled}
-                        onValueChange={value => setIsSpeechEnabled(value)}
+                        onValueChange={handleToggleSpeech}
                     />
                 </View>
 
@@ -48,7 +75,7 @@ const Settings: React.FC<Props> = ({ navigation }) => {
                         <Picker
                             selectedValue={selectedVoice}
                             style={localStyles.picker}
-                            onValueChange={itemValue => setSelectedVoice(itemValue)}>
+                            onValueChange={handleSelectVoice}>
                             <Picker.Item label="Default" value="default" />
                             <Picker.Item label="Male Voice" value="male" />
                             <Picker.Item label="Female Voice" value="female" />
