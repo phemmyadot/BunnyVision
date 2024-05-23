@@ -1,23 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { styles } from '../styles';
 import { Camera, PermissionStatus } from 'expo-camera';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { speak, stop } from 'expo-speech';
 import AnimatedLottieView from 'lottie-react-native';
+import { GPTService } from '../gptService';
+import * as Speech from 'expo-speech';
+import ImageSelector from './ImageSelector';
+import { AppContext, DialogType } from '../utils';
 
-interface RecognitionScreenProps {
-    image: string | null;
-    description: string | null;
-    loading: boolean;
-}
-const RecognitionScreen: React.FC<RecognitionScreenProps> = ({ image, description, loading }) => {
-    const [hasPermission, setHasPermission] = useState<boolean>(false);
-    // const [voice, setVoice] = useState<string>('');
+const RecognitionScreen = () => {
+    const appContext = useContext(AppContext);
 
-    const handleSpeak = (description: string) => {
-        speak(description, {
-            // voice: voice
-        });
+    const gptService = GPTService.getInstance();
+
+    const pickImage = async (image: string, base64EncodedImage?: string | null) => {
+        try {
+            if (!base64EncodedImage) {
+                return;
+            }
+            appContext.setImage(image);
+            appContext.setLoading(true);
+
+            const message = await gptService.gpt4(base64EncodedImage);
+
+            appContext.setMessage(message);
+            if (message) {
+                handleSpeak(message);
+            }
+            appContext.setLoading(false);
+        } catch (error: any) {
+            appContext.reset();
+            appContext.setLoading(false);
+            appContext.setErrorMessage(error.message);
+            appContext.setDialogType(DialogType.Error);
+            appContext.setShowDialog(true);
+        }
+    };
+
+    const handleSpeak = (message: string) => {
+        speak(message, {});
 
         return () => {
             console.log('Stopping speech');
@@ -25,59 +47,51 @@ const RecognitionScreen: React.FC<RecognitionScreenProps> = ({ image, descriptio
         };
     };
 
-    // useEffect(() => {
-    //     (async () => {
-    //         const voices = await getAvailableVoicesAsync();
-    //         //TODO: set random en-US voice, will be handled in settings
-    //         const enUSVoices = voices.filter((v) => v.language === 'en-US');
-    //         const randomIndex = Math.floor(Math.random() * enUSVoices.length);
-    //         console.log(
-    //             'Setting voice to: ',
-    //             enUSVoices[randomIndex].identifier
-    //         );
-    //         setVoice(enUSVoices[randomIndex].identifier);
-    //     })();
-    // }, []);
-
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestCameraPermissionsAsync();
-            setHasPermission(status === PermissionStatus.GRANTED);
+            if (status !== PermissionStatus.GRANTED) {
+                appContext.setDialogType(DialogType.PermissionAlert);
+                appContext.setShowDialog(true);
+                return;
+            }
         })();
-        if (description) handleSpeak(description);
-        else stop();
-    }, [description]);
-
-    if (hasPermission === null) {
-        return <View />;
-    }
-    if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
-    }
+    }, [appContext.message]);
 
     return (
-        <View style={styles.container}>
-            {image ? (
-                <Image source={{ uri: image }} style={styles.image} />
-            ) : (
-                <Image source={require('../assets/placeholder.png')} style={styles.image} />
-            )}
-            <ScrollView style={styles.descriptionContainer}>
-                {loading ? (
-                    <View style={styles.loadingContainer}>
-                        <AnimatedLottieView
-                            source={require('../assets/loading.json')}
-                            autoPlay
-                            style={styles.loading}
-                        />
-                    </View>
-                ) : !loading && description ? (
-                    <Text style={styles.description}>{description}</Text>
+        <>
+            <View style={styles.container}>
+                {appContext.image ? (
+                    <Image source={{ uri: appContext.image }} style={styles.image} />
                 ) : (
-                    <Text style={[styles.description, styles.textCenter]}>Please select an image to analyze</Text>
+                    <Image source={require('../assets/placeholder.png')} style={styles.image} />
                 )}
-            </ScrollView>
-        </View>
+                <ScrollView style={styles.messageContainer}>
+                    {appContext.loading ? (
+                        <View style={styles.loadingContainer}>
+                            <AnimatedLottieView
+                                source={require('../assets/loading.json')}
+                                autoPlay
+                                style={styles.loading}
+                            />
+                        </View>
+                    ) : !appContext.loading && appContext.message ? (
+                        <Text style={styles.message}>{appContext.message}</Text>
+                    ) : (
+                        <Text style={[styles.message, styles.textCenter]}>Please select an image to analyze</Text>
+                    )}
+                </ScrollView>
+            </View>
+            {appContext.showPhotoSelector && (
+                <View
+                    style={{
+                        justifyContent: 'flex-end',
+                        alignItems: 'flex-end',
+                    }}>
+                    <ImageSelector onImageSelected={pickImage} />
+                </View>
+            )}
+        </>
     );
 };
 

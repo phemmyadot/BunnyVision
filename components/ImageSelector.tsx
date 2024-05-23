@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, Platform, Alert, Modal, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { styles } from '../styles';
+import { AppContext, DialogType } from '../utils';
 
 interface ImageSelectorProps {
-    isVisible: boolean;
-    onClose: () => void;
     onImageSelected: (image: string, base64EncodedImage?: string | null) => void;
 }
 
-const ImageSelector: React.FC<ImageSelectorProps> = ({ isVisible, onClose, onImageSelected }) => {
+const ImageSelector: React.FC<ImageSelectorProps> = ({ onImageSelected }) => {
+    const appContext = useContext(AppContext);
     const insets = useSafeAreaInsets();
 
     const verifyPermissions = async () => {
@@ -27,8 +27,11 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ isVisible, onClose, onIma
     };
 
     const takeImageHandler = async () => {
+        appContext.setShowPhotoSelector(false);
         const hasPermission = await verifyPermissions();
         if (!hasPermission) {
+            appContext.setDialogType(DialogType.PermissionAlert);
+            appContext.setShowDialog(true);
             return;
         }
 
@@ -40,10 +43,10 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ isVisible, onClose, onIma
         if (!image.canceled) {
             onImageSelected(image.assets[0].uri, image.assets[0].base64);
         }
-        onClose();
     };
 
     const pickImageHandler = async () => {
+        appContext.setShowPhotoSelector(false);
         const hasPermission = await verifyPermissions();
         if (!hasPermission) {
             return;
@@ -58,25 +61,26 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ isVisible, onClose, onIma
         if (!image.canceled) {
             onImageSelected(image.assets[0].uri, image.assets[0].base64);
         }
-        onClose();
     };
 
     return (
-        <Modal visible={isVisible} animationType="slide" transparent={true}>
-            <TouchableWithoutFeedback onPress={onClose}>
-                <View style={styles.photoModeSelector}>
-                    <View style={[styles.photoSelectorButtonsContainer, { paddingBottom: insets.bottom + 20 }]}>
-                        <TouchableOpacity style={styles.photoSelectorButton} onPress={takeImageHandler}>
-                            <Text style={styles.photoSelectorButtonText}>Take Photo</Text>
-                        </TouchableOpacity>
-                        <View style={styles.divider} />
-                        <TouchableOpacity style={styles.photoSelectorButton} onPress={pickImageHandler}>
-                            <Text style={styles.photoSelectorButtonText}>Pick Image from Gallery</Text>
-                        </TouchableOpacity>
+        <>
+            <Modal visible={appContext.showPhotoSelector} animationType="slide" transparent={true}>
+                <TouchableWithoutFeedback onPress={() => appContext.setShowPhotoSelector(false)}>
+                    <View style={styles.photoModeSelector}>
+                        <View style={[styles.photoSelectorButtonsContainer, { paddingBottom: insets.bottom + 20 }]}>
+                            <TouchableOpacity style={styles.photoSelectorButton} onPress={takeImageHandler}>
+                                <Text style={styles.photoSelectorButtonText}>Take Photo</Text>
+                            </TouchableOpacity>
+                            <View style={styles.divider} />
+                            <TouchableOpacity style={styles.photoSelectorButton} onPress={pickImageHandler}>
+                                <Text style={styles.photoSelectorButtonText}>Pick Image from Gallery</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
-            </TouchableWithoutFeedback>
-        </Modal>
+                </TouchableWithoutFeedback>
+            </Modal>
+        </>
     );
 };
 

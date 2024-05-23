@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, Platform, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../styles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { AppContext, DialogType } from '../utils';
 
-interface AppTopBarProps {
-    reset: () => void;
-}
-const AppTopBar: React.FC<AppTopBarProps> = ({ reset }) => {
+const AppTopBar = () => {
+    const appContext = useContext(AppContext);
+
+    const reset = () => {
+        appContext.setDialogType(DialogType.ResetAlert);
+        appContext.setShowDialog(true);
+    };
+
     const insets = useSafeAreaInsets();
     return (
         <View

@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../styles';
-interface BottomActionsProps {
-    onCameraPress: () => void;
-    onSettingsPress: () => void;
-    onAboutPress: () => void;
-}
-const BottomActions: React.FC<BottomActionsProps> = ({ onCameraPress, onSettingsPress, onAboutPress }) => {
+import { AppContext, DialogType } from '../utils';
+
+const BottomActions = () => {
+    const appContext = useContext(AppContext);
+
+    const onCameraPress = () => {
+        if (appContext.message) {
+            appContext.setDialogType(DialogType.NewPhotoAlert);
+            appContext.setShowDialog(true);
+        } else {
+            appContext.setShowPhotoSelector(true);
+        }
+    };
+
+    const onSettingsPress = () => {
+        console.log('Settings pressed');
+    };
+
+    const onAboutPress = () => {
+        console.log('About pressed');
+    };
+
     return (
         <>
             <View style={styles.FabButtonContainer}>

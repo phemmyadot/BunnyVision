@@ -52,7 +52,7 @@ export class GPTService {
         // return response.choices[0].message.content;
     };
 
-    public getDescriptionFromGPT4 = async (imageLabels: string): Promise<string> => {
+    public getMessageFromGPT4 = async (imageLabels: string): Promise<string> => {
         const chatCompletion = await openai.chat.completions.create({
             messages: [
                 {

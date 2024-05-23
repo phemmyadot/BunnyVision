@@ -25,14 +25,14 @@ export const styles = StyleSheet.create({
         borderEndStartRadius: 10,
         borderEndEndRadius: 10,
     },
-    descriptionContainer: {
+    messageContainer: {
         padding: 20,
         flex: 1,
         borderRadius: 10,
         paddingTop: 20,
         minWidth: '100%',
     },
-    description: {
+    message: {
         textAlign: 'justify',
         marginBottom: 100,
     },
