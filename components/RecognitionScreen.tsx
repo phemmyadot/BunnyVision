@@ -14,14 +14,11 @@ const RecognitionScreen = () => {
 
     const gptService = GPTService.getInstance();
 
-    const pickImage = async (image: string, base64EncodedImage?: string | null) => {
+    const pickImage = async (base64EncodedImage?: string | null) => {
         try {
-            appContext.reset();
             if (!base64EncodedImage) {
                 return;
             }
-            appContext.setImage(image);
-            appContext.setLoading(true);
 
             const message = await gptService.gpt4(base64EncodedImage);
 

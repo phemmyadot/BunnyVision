@@ -6,7 +6,7 @@ import { styles } from '../styles';
 import { AppContext, DialogType } from '../utils';
 
 interface ImageSelectorProps {
-    onImageSelected: (image: string, base64EncodedImage?: string | null) => void;
+    onImageSelected: (base64EncodedImage?: string | null) => void;
 }
 
 const ImageSelector: React.FC<ImageSelectorProps> = ({ onImageSelected }) => {
@@ -41,7 +41,10 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ onImageSelected }) => {
             base64: true,
         });
         if (!image.canceled) {
-            onImageSelected(image.assets[0].uri, image.assets[0].base64);
+            appContext.reset();
+            appContext.setLoading(true);
+            appContext.setImage(image.assets[0].uri);
+            onImageSelected(image.assets[0].base64);
         }
     };
 
@@ -59,7 +62,10 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ onImageSelected }) => {
         });
 
         if (!image.canceled) {
-            onImageSelected(image.assets[0].uri, image.assets[0].base64);
+            appContext.reset();
+            appContext.setLoading(true);
+            appContext.setImage(image.assets[0].uri);
+            onImageSelected(image.assets[0].base64);
         }
     };
 
