@@ -35,21 +35,9 @@ export class GPTService {
                     ],
                 },
             ],
-            stream: true,
         });
-        const reader = completion.toReadableStream();
-        // let done, value;
-        // while (!done) {
-        //     ({ done, value } = await reader.read());
-        //     if (!done) {
-        //         const chunk = new TextDecoder().decode(value);
-        //         console.log(chunk);
-        //     }
-        // }
-        console.log('Streaming complete.');
-        console.log('reader', reader);
-        return '';
-        // return response.choices[0].message.content;
+
+        return completion.choices[0].message.content;
     };
 
     public getMessageFromGPT4 = async (imageLabels: string): Promise<string> => {

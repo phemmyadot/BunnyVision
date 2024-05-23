@@ -16,6 +16,7 @@ const RecognitionScreen = () => {
 
     const pickImage = async (image: string, base64EncodedImage?: string | null) => {
         try {
+            appContext.reset();
             if (!base64EncodedImage) {
                 return;
             }
@@ -33,6 +34,7 @@ const RecognitionScreen = () => {
             appContext.reset();
             appContext.setLoading(false);
             appContext.setErrorMessage(error.message);
+            console.error(error.message);
             appContext.setDialogType(DialogType.Error);
             appContext.setShowDialog(true);
         }

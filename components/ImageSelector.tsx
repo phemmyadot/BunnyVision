@@ -72,7 +72,6 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ onImageSelected }) => {
                             <TouchableOpacity style={styles.photoSelectorButton} onPress={takeImageHandler}>
                                 <Text style={styles.photoSelectorButtonText}>Take Photo</Text>
                             </TouchableOpacity>
-                            <View style={styles.divider} />
                             <TouchableOpacity style={styles.photoSelectorButton} onPress={pickImageHandler}>
                                 <Text style={styles.photoSelectorButtonText}>Pick Image from Gallery</Text>
                             </TouchableOpacity>

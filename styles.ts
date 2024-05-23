@@ -184,15 +184,15 @@ export const styles = StyleSheet.create({
         height: '100%',
     },
     photoSelectorButtonsContainer: {
-        backgroundColor: colors.primary,
         width: '100%',
-        padding: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
+        backgroundColor: colors.primary,
     },
     photoSelectorButton: {
-        paddingVertical: 10,
+        paddingVertical: 20,
         width: '100%',
+        backgroundColor: colors.primary,
     },
     photoSelectorButtonText: {
         textAlign: 'center',
