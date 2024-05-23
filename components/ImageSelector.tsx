@@ -9,7 +9,7 @@ interface ImageSelectorProps {
     onImageSelected: (base64EncodedImage?: string | null) => void;
 }
 
-const ImageSelector: React.FC<ImageSelectorProps> = ({ onImageSelected }) => {
+const ImageSelector: FC<ImageSelectorProps> = ({ onImageSelected }) => {
     const appContext = useContext(AppContext);
     const insets = useSafeAreaInsets();
 

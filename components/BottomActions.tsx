@@ -1,9 +1,20 @@
-import React, { useContext } from 'react';
+import React, { FC, useContext } from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../styles';
 import { AppContext, DialogType } from '../utils';
+import { HomeNavigationProp } from '../screens/Home';
 
-const BottomActions = () => {
+export type RootStackParamList = {
+    Home: undefined;
+    Info: undefined;
+    Settings: undefined;
+};
+
+interface BottomActionsProps {
+    navigation: HomeNavigationProp;
+}
+
+const BottomActions: FC<BottomActionsProps> = ({ navigation }) => {
     const appContext = useContext(AppContext);
 
     const onCameraPress = () => {
@@ -16,11 +27,11 @@ const BottomActions = () => {
     };
 
     const onSettingsPress = () => {
-        console.log('Settings pressed');
+        navigation.navigate('Settings');
     };
 
-    const onAboutPress = () => {
-        console.log('About pressed');
+    const onInfoPress = () => {
+        navigation.navigate('Info');
     };
 
     return (
@@ -36,7 +47,7 @@ const BottomActions = () => {
                 <TouchableOpacity onPress={onSettingsPress} style={styles.tabButton}>
                     <Image source={require('./../assets/settings.png')} style={[styles.tabIcon, { height: 23 }]} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={onAboutPress} style={styles.tabButton}>
+                <TouchableOpacity onPress={onInfoPress} style={styles.tabButton}>
                     <Image source={require('./../assets/about.png')} style={styles.tabIcon} />
                 </TouchableOpacity>
             </View>

@@ -127,6 +127,7 @@ export const styles = StyleSheet.create({
         color: colors.white,
         textAlign: 'center',
     },
+    backButton: { flexDirection: 'row', alignItems: 'center' },
     bodyText: {
         fontSize: 14,
         color: colors.white,

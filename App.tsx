@@ -1,29 +1,52 @@
-import React from 'react';
-import { SafeAreaView } from 'react-native';
+import React, { useContext } from 'react';
 import { ErrorBoundary } from './ErrorBoundary';
-import { colors, styles } from './styles';
+import { colors } from './styles';
 import AppTopBar from './components/AppTopBar';
-import BottomActions from './components/BottomActions';
-import RecognitionScreen from './components/RecognitionScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import MyStatusBar from './components/MyStatusBar';
-import AppProvider from './utils';
+import AppProvider, { AppContext } from './utils';
 import Dialog from './components/Dialog';
+import { createStackNavigator } from '@react-navigation/stack';
+import Home from './screens/Home';
+import Info from './screens/Info';
+import Settings from './screens/Settings';
+import { NavigationContainer } from '@react-navigation/native';
+import { leftToRightAnimation, navigationRef } from './navigation';
 
+const Stack = createStackNavigator();
+
+const MyStack = () => {
+    const appContext = useContext(AppContext);
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+            screenListeners={{
+                state: e => {
+                    appContext.setCurrentRoute(e.data.state.routes[e.data.state.index].name);
+                },
+            }}
+            initialRouteName="Home">
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Settings" component={Settings} options={leftToRightAnimation} />
+            <Stack.Screen name="Info" component={Info} />
+        </Stack.Navigator>
+    );
+};
 const App = () => {
     return (
         <SafeAreaProvider>
             <MyStatusBar backgroundColor={colors.primary} />
-            <SafeAreaView style={styles.container}>
-                <ErrorBoundary>
-                    <AppProvider>
-                        <AppTopBar />
-                        <RecognitionScreen />
-                        <BottomActions />
-                        <Dialog />
-                    </AppProvider>
-                </ErrorBoundary>
-            </SafeAreaView>
+            <ErrorBoundary>
+                <AppProvider>
+                    <AppTopBar />
+                    <NavigationContainer ref={navigationRef}>
+                        <MyStack />
+                    </NavigationContainer>
+                    <Dialog />
+                </AppProvider>
+            </ErrorBoundary>
         </SafeAreaProvider>
     );
 };

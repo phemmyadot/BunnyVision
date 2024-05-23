@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext } from 'react';
+import React, { FC, ReactNode, createContext } from 'react';
 import { GPTService } from './gptService';
 import * as Speech from 'expo-speech';
 
@@ -29,6 +29,8 @@ interface AppContextType {
     setDialogType: (dialogType: DialogType) => void;
     errorMessage: string;
     setErrorMessage: (errorMessage: string) => void;
+    currentRoute: string;
+    setCurrentRoute: (currentRoute: string) => void;
 }
 
 const defaultContext: AppContextType = {
@@ -51,6 +53,8 @@ const defaultContext: AppContextType = {
     setDialogType: () => {},
     errorMessage: '',
     setErrorMessage: () => {},
+    currentRoute: '',
+    setCurrentRoute: () => {},
 };
 
 const AppContext = createContext<AppContextType>(defaultContext);
@@ -59,7 +63,7 @@ interface AppProviderProps {
     children: ReactNode;
 }
 
-const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+const AppProvider: FC<AppProviderProps> = ({ children }) => {
     const [loading, setLoading] = React.useState<boolean>(false);
     const [voice, setVoice] = React.useState<string>('');
     const [showPhotoSelector, setShowPhotoSelector] = React.useState<boolean>(false);
@@ -68,6 +72,7 @@ const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [showDialog, setShowDialog] = React.useState<boolean>(false);
     const [dialogType, setDialogType] = React.useState<DialogType>(DialogType.ResetAlert);
     const [errorMessage, setErrorMessage] = React.useState<string>('');
+    const [currentRoute, setCurrentRoute] = React.useState<string>('');
 
     const reset = () => {
         setImage(null);
@@ -106,6 +111,8 @@ const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 setDialogType: setDialogType,
                 errorMessage: errorMessage,
                 setErrorMessage: setErrorMessage,
+                currentRoute: currentRoute,
+                setCurrentRoute: setCurrentRoute,
             }}>
             {children}
         </AppContext.Provider>

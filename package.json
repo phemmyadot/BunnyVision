@@ -11,6 +11,7 @@
     },
     "dependencies": {
         "@react-native-community/eslint-config": "^3.2.0",
+        "@react-navigation/stack": "^6.3.29",
         "aws-sdk": "^2.1621.0",
         "expo": "^51.0.8",
         "expo-camera": "^15.0.9",
