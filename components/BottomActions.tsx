@@ -28,10 +28,12 @@ const BottomActions: FC<BottomActionsProps> = ({ navigation }) => {
 
     const onSettingsPress = () => {
         navigation.navigate('Settings');
+        appContext.reset();
     };
 
     const onInfoPress = () => {
         navigation.navigate('Info');
+        appContext.reset();
     };
 
     return (
