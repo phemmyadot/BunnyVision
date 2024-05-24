@@ -5,9 +5,9 @@ import { RootStackParamList } from '../components/BottomActions';
 import { Picker } from '@react-native-picker/picker';
 import Spacer from '../components/Spacer';
 import { colors, styles } from '../styles';
-import { PersistentStorage } from '../persistent-storage';
+import { PersistentStorage } from '../services/persistent-storage';
 import { getLocales } from 'expo-localization';
-import { AppContext, DialogType } from '../utils';
+import { AppContext, DialogType } from '../store/utils';
 import { Voice, getAvailableVoicesAsync, stop, speak, isSpeakingAsync } from 'expo-speech';
 
 type SettingsNavigationProp = StackNavigationProp<RootStackParamList, 'Settings'>;

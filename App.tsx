@@ -1,17 +1,17 @@
 import React, { useContext } from 'react';
-import { ErrorBoundary } from './ErrorBoundary';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { colors } from './styles';
 import AppTopBar from './components/AppTopBar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import MyStatusBar from './components/MyStatusBar';
-import AppProvider, { AppContext } from './utils';
+import AppProvider, { AppContext } from './store/utils';
 import Dialog from './components/Dialog';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './screens/Home';
 import Info from './screens/Info';
 import Settings from './screens/Settings';
 import { NavigationContainer } from '@react-navigation/native';
-import { leftToRightAnimation, navigationRef } from './navigation';
+import { leftToRightAnimation, navigationRef } from './services/navigation';
 
 const Stack = createStackNavigator();
 

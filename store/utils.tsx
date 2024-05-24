@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, createContext } from 'react';
-import { GPTService } from './gptService';
+import { GPTService } from '../services/gptService';
 import { isSpeakingAsync, stop } from 'expo-speech';
 
 export enum DialogType {

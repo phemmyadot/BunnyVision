@@ -3,7 +3,7 @@ import { View, Text, Alert, Modal, TouchableOpacity, TouchableWithoutFeedback } 
 import * as ImagePicker from 'expo-image-picker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { styles } from '../styles';
-import { AppContext } from '../utils';
+import { AppContext } from '../store/utils';
 
 interface ImageSelectorProps {
     onImageSelected: (base64EncodedImage?: string | null) => void;

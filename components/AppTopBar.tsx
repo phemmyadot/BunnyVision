@@ -2,8 +2,8 @@ import React, { FC, useContext, useEffect } from 'react';
 import { View, Text, Platform, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../styles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AppContext, DialogType } from '../utils';
-import { getCurrentRouteName, navigate } from '../navigation';
+import { AppContext, DialogType } from '../store/utils';
+import { getCurrentRouteName, navigate } from '../services/navigation';
 
 const AppTopBar = () => {
     const appContext = useContext(AppContext);

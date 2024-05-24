@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Modal, TouchableWithoutFeedback, View, Text, TouchableOpacity } from 'react-native';
 import { styles, colors } from '../styles';
-import { AppContext, DialogType } from '../utils';
-import { navigate } from '../navigation';
+import { AppContext, DialogType } from '../store/utils';
+import { navigate } from '../services/navigation';
 
 const dialogMessages = new Map<DialogType, string>([
     [DialogType.NewPhotoAlert, 'Are you sure you want to take a new photo?'],

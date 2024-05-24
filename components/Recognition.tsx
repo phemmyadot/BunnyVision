@@ -3,11 +3,11 @@ import { styles } from '../styles';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { speak, stop } from 'expo-speech';
 import AnimatedLottieView from 'lottie-react-native';
-import { GPTService } from '../gptService';
+import { GPTService } from '../services/gptService';
 import ImageSelector from './ImageSelector';
-import { AppContext, DialogType } from '../utils';
+import { AppContext, DialogType } from '../store/utils';
 import Spacer from './Spacer';
-import { PersistentStorage } from '../persistent-storage';
+import { PersistentStorage } from '../services/persistent-storage';
 
 const Recognition = () => {
     const appContext = useContext(AppContext);

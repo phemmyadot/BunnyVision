@@ -1,7 +1,7 @@
 import React, { FC, useContext } from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../styles';
-import { AppContext, DialogType } from '../utils';
+import { AppContext, DialogType } from '../store/utils';
 import { HomeNavigationProp } from '../screens/Home';
 
 export type RootStackParamList = {
