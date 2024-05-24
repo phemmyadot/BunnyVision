@@ -43,8 +43,8 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you share them with your friends.",
-          "cameraPermission": "BunnyVision needs access to your photo library to allow you to upload images for recognition."
+          "photosPermission": "BunnyVision needs access to your photo library to allow you to upload images for recognition.",
+          "cameraPermission": "BunnyVision needs access to your camera to allow you to take photos and use our image recognition feature."
         }
       ],
       "expo-localization",
