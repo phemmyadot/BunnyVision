@@ -2,12 +2,14 @@ import React, { useContext } from 'react';
 import { Modal, TouchableWithoutFeedback, View, Text, TouchableOpacity } from 'react-native';
 import { styles, colors } from '../styles';
 import { AppContext, DialogType } from '../utils';
+import { navigate } from '../navigation';
 
 const dialogMessages = new Map<DialogType, string>([
     [DialogType.NewPhotoAlert, 'Are you sure you want to take a new photo?'],
     [DialogType.ResetAlert, 'Are you sure you want to reset the app?'],
     [DialogType.PermissionAlert, 'You need to grant camera permissions to use this app.'],
     [DialogType.Error, 'An error occurred. Please try again.'],
+    [DialogType.SaveSettings, 'Settings saved successfully.'],
 ]);
 
 const buttonText = new Map<DialogType, string>([
@@ -15,6 +17,7 @@ const buttonText = new Map<DialogType, string>([
     [DialogType.ResetAlert, 'Yes'],
     [DialogType.PermissionAlert, 'Okay'],
     [DialogType.Error, 'Okay'],
+    [DialogType.SaveSettings, 'Okay'],
 ]);
 
 const Dialog = () => {
@@ -30,6 +33,7 @@ const Dialog = () => {
                 break;
             case DialogType.PermissionAlert:
             case DialogType.Error:
+            case DialogType.SaveSettings:
                 break;
         }
         appContext.setShowDialog(false);

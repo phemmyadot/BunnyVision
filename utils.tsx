@@ -1,12 +1,13 @@
 import React, { FC, ReactNode, createContext } from 'react';
 import { GPTService } from './gptService';
-import * as Speech from 'expo-speech';
+import { isSpeakingAsync, stop } from 'expo-speech';
 
 export enum DialogType {
     NewPhotoAlert,
     ResetAlert,
     PermissionAlert,
     Error,
+    SaveSettings,
 }
 
 interface AppContextType {
@@ -72,9 +73,9 @@ const AppProvider: FC<AppProviderProps> = ({ children }) => {
     const reset = () => {
         setImage(null);
         setMessage(null);
-        Speech.isSpeakingAsync().then(speaking => {
+        isSpeakingAsync().then(speaking => {
             if (speaking) {
-                Speech.stop();
+                stop();
             }
         });
     };

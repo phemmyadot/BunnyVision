@@ -7,11 +7,13 @@ import { GPTService } from '../gptService';
 import ImageSelector from './ImageSelector';
 import { AppContext, DialogType } from '../utils';
 import Spacer from './Spacer';
+import { PersistentStorage } from '../persistent-storage';
 
 const Recognition = () => {
     const appContext = useContext(AppContext);
 
     const gptService = GPTService.getInstance();
+    const persistentStorage = PersistentStorage.getInstance();
 
     const pickImage = async (base64EncodedImage?: string | null) => {
         try {
@@ -36,11 +38,12 @@ const Recognition = () => {
         }
     };
 
-    const handleSpeak = (message: string) => {
-        speak(message, {});
+    const handleSpeak = async (message: string) => {
+        speak(message, {
+            voice: (await persistentStorage.getData('voice')) || 'com.apple.voice.compact.en-US.Samantha',
+        });
 
         return () => {
-            console.log('Stopping speech');
             stop();
         };
     };

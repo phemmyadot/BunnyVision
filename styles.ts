@@ -32,7 +32,11 @@ export const styles = StyleSheet.create({
         padding: 20,
         flex: 1,
         borderRadius: 10,
-        paddingTop: 20,
+        minWidth: '100%',
+    },
+    settingsContainer: {
+        paddingHorizontal: 20,
+        flex: 1,
         minWidth: '100%',
     },
     message: {
@@ -171,7 +175,8 @@ export const styles = StyleSheet.create({
     },
     loadingContainer: {
         justifyContent: 'center',
-        minHeight: '100%',
+        minHeight: '90%',
+        alignContent: 'center',
     },
     confirmButton: {
         backgroundColor: colors.primary,
