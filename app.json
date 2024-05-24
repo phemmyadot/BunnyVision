@@ -13,7 +13,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.phemmyhot.BunnyVision"
+      "bundleIdentifier": "com.phemmyhot.BunnyVision",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -44,7 +47,13 @@
           "cameraPermission": "BunnyVision needs access to your photo library to allow you to upload images for recognition."
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
+        }
+      ]
     ]
   }
 }
