@@ -16,7 +16,7 @@ type Props = {
 const InfoPage: React.FC<Props> = () => {
     const getVersion = () => {
         if (Constants.appOwnership === 'expo') {
-            return require('../package.json').version;
+            return Constants.expoConfig?.version;
         }
         return Application.nativeApplicationVersion;
     };
@@ -36,11 +36,11 @@ const InfoPage: React.FC<Props> = () => {
                     <Text style={[styles.headerText, localStyles.header]}>Technologies Used</Text>
                     <Text style={styles.subheader}>GPT-4o</Text>
                     <Text style={styles.message}>
-                        BunnyVision uses GPT-4, a state-of-the-art language model developed by OpenAI, to analyze images
-                        and generate detailed descriptions.
+                        BunnyVision uses GPT-4o, a state-of-the-art language model developed by OpenAI, to analyze
+                        images and generate detailed descriptions.
                     </Text>
                     <Text style={styles.message}>
-                        GPT-4 is capable of understanding and generating human-like text, making it ideal for providing
+                        GPT-4o is capable of understanding and generating human-like text, making it ideal for providing
                         rich and accurate descriptions.
                     </Text>
                     <Text style={styles.message}>
