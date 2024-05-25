@@ -39,6 +39,10 @@ const Recognition = () => {
     };
 
     const handleSpeak = async (message: string) => {
+        const speechEnabled = (await persistentStorage.getData('speechEnabled')) === 'true';
+        if (!speechEnabled) {
+            return;
+        }
         speak(message, {
             voice: (await persistentStorage.getData('voice')) || 'com.apple.voice.compact.en-US.Samantha',
         });

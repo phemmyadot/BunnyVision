@@ -38,14 +38,15 @@ const ImageSelector: FC<ImageSelectorProps> = ({ onImageSelected }) => {
     };
 
     const takeImageHandler = async () => {
-        appContext.setShowPhotoSelector(false);
         const hasPermission = await verifyCameraPermissions();
         if (hasPermission) {
             const image = await ImagePicker.launchCameraAsync({
                 aspect: [16, 9],
-                quality: 0,
+                quality: 1,
+                allowsEditing: true,
                 base64: true,
             });
+            appContext.setShowPhotoSelector(false);
             if (!image.canceled) {
                 appContext.reset();
                 appContext.setLoading(true);
