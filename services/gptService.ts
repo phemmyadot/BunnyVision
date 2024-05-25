@@ -17,6 +17,7 @@ export class GPTService {
     }
 
     public gpt4 = async (base64EncodedImage: string): Promise<string | null> => {
+        const query = await this.getQueryByLanguage();
         const completion = await openai.chat.completions.create({
             model: 'gpt-4-turbo',
             messages: [
@@ -25,7 +26,7 @@ export class GPTService {
                     content: [
                         {
                             type: 'text',
-                            text: "What's in this image?",
+                            text: query,
                         },
                         {
                             type: 'image_url',
@@ -46,25 +47,11 @@ export class GPTService {
     private getQueryByLanguage = async (): Promise<string> => {
         const lang = (await this.persistentStorage.getData('language')) || 'en';
         if (lang === 'es') {
-            return 'Describe brevemente una imagen con las siguientes etiquetas. No agregue el % al resultado, utilícelo para concluir el resultado:  \n\n';
+            return '¿Qué hay en esta imagen?';
         } else if (lang === 'fr') {
-            return "Décrivez brièvement une image avec les étiquettes suivantes. N'ajoutez pas le % au résultat, utilisez-les plutôt pour conclure le résultat:  \n\n";
+            return "Qu'y a-t-il dans cette image?";
         } else {
-            return "Describe briefly an image with the following labels. Don't add the % to the result, use them to conclude the result instead:  \n\n";
+            return "What's in this image?";
         }
-    };
-
-    public getMessageFromGPT4 = async (imageLabels: string): Promise<string> => {
-        const query = await this.getQueryByLanguage();
-        const chatCompletion = await openai.chat.completions.create({
-            messages: [
-                {
-                    role: 'user',
-                    content: query + imageLabels,
-                },
-            ],
-            model: 'gpt-4o',
-        });
-        return chatCompletion.choices[0].message.content ?? '';
     };
 }

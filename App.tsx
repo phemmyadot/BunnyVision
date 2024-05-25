@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { colors } from './styles';
 import AppTopBar from './components/AppTopBar';
@@ -12,10 +12,18 @@ import Info from './screens/Info';
 import Settings from './screens/Settings';
 import { NavigationContainer } from '@react-navigation/native';
 import { leftToRightAnimation, navigationRef } from './services/navigation';
+import { isSpeakingAsync, stop } from 'expo-speech';
 
 const Stack = createStackNavigator();
 
 const MyStack = () => {
+    useEffect(() => {
+        return () => {
+            (async () => {
+                if (await isSpeakingAsync()) stop();
+            })();
+        };
+    }, []);
     const appContext = useContext(AppContext);
     return (
         <Stack.Navigator

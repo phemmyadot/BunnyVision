@@ -105,6 +105,28 @@ const Settings: React.FC<Props> = ({ navigation }) => {
         }, 1000);
     };
 
+    const handleLanguageChange = async (language: string) => {
+        setSelectedLanguage(language);
+        if (isSpeechEnabled) {
+            setVoicesForLanguage(language);
+            const firstVoiceForLanguage = voices.find(voice => voice.language === language);
+            if (firstVoiceForLanguage) {
+                setSelectedVoice(firstVoiceForLanguage.identifier);
+            }
+        }
+    };
+
+    const handleEnableSpeech = async (enabled: boolean) => {
+        setIsSpeechEnabled(enabled);
+        if (enabled) {
+            setVoicesForLanguage(selectedLanguage);
+            const firstVoiceForLanguage = voices.find(voice => voice.language === selectedLanguage);
+            if (firstVoiceForLanguage) {
+                setSelectedVoice(firstVoiceForLanguage.identifier);
+            }
+        }
+    };
+
     return (
         <View style={styles.container}>
             <TouchableOpacity
@@ -120,7 +142,7 @@ const Settings: React.FC<Props> = ({ navigation }) => {
                     <Picker
                         selectedValue={selectedLanguage}
                         style={localStyles.picker}
-                        onValueChange={setSelectedLanguage}>
+                        onValueChange={handleLanguageChange}>
                         {languages.map(language => (
                             <Picker.Item key={language.value} label={language.label} value={language.value} />
                         ))}
@@ -132,7 +154,7 @@ const Settings: React.FC<Props> = ({ navigation }) => {
                     <Switch
                         trackColor={{ true: colors.primary }}
                         value={isSpeechEnabled}
-                        onValueChange={setIsSpeechEnabled}
+                        onValueChange={handleEnableSpeech}
                     />
                 </View>
 
